@@ -14,15 +14,12 @@ export default class Bishop extends Piece {
         // Allow diagonal moves, and no other moves
         const moves = [];
 
-        // Bottom-right of diagonal
-        moves.push(...board.getMovesInDirection(currentSquare, [-1, 1]));
-        // Bottom-left of diagonal
-        moves.push(...board.getMovesInDirection(currentSquare, [-1, -1]));
-        // Top-right of diagonal
-        moves.push(...board.getMovesInDirection(currentSquare, [1, 1]));
-        // Top-left of diagonal
-        moves.push(...board.getMovesInDirection(currentSquare, [1, -1]));
-
+        for (let i of [1, -1]) {
+            for (let j of [1, -1]) {
+                moves.push(...board.getMovesInDirection(currentSquare, [i, j]));
+            }
+        }
+        
         return moves.filter(square => !(board.getPiece(square) instanceof King));
     }
 }
