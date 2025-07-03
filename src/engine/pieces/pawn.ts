@@ -3,6 +3,7 @@ import Player from '../player';
 import Board from '../board';
 import Square from '../square';
 import GameSettings from '../gameSettings';
+import King from './king';
 
 export default class Pawn extends Piece {
     public constructor(player: Player) {
@@ -22,6 +23,18 @@ export default class Pawn extends Piece {
                 moves.push(Square.at(currentSquare.row + 2 * direction, currentSquare.col));
             }
         }
-        return moves;
+        // Can move diagonally if there is a piece to take
+        const diagonalMoves = [
+            Square.at(currentSquare.row + direction, currentSquare.col + direction),
+            Square.at(currentSquare.row + direction, currentSquare.col - direction)
+        ];
+
+        for (let sq of diagonalMoves) {
+            if (sq.withinBoard() && board.getPiece(sq) != undefined && board.getPiece(sq)?.player != board.currentPlayer) {
+                moves.push(sq);
+            }
+        }
+        // Can't take the opposing king
+        return moves.filter(square => !(board.getPiece(square) instanceof King));
     }
 }
