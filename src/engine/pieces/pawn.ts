@@ -14,13 +14,15 @@ export default class Pawn extends Piece {
         const currentSquare = board.findPiece(this);
         const moves = [];
         const direction = this.player === Player.WHITE ? 1 : -1;
+        const sqAhead = Square.at(currentSquare.row + direction, currentSquare.col);
         // Square ahead must be free (to move either 1 or 2 spaces), and within the bounds of the board
-        if (currentSquare.row + direction >= 0 && currentSquare.row + direction < GameSettings.BOARD_SIZE && board.getPiece(Square.at(currentSquare.row + direction, currentSquare.col)) == undefined) {
-            moves.push(Square.at(currentSquare.row + direction, currentSquare.col));
+        if (sqAhead.withinBoard() && board.getPiece(sqAhead) == undefined) {
+            moves.push(sqAhead);
             const startingRow = this.player === Player.WHITE ? 1 : 6;
             // If the pawn hasn't yet moved, then it can move two spaces (if the square two spaces ahead is free and within the bounds)
-            if (currentSquare.row + 2 * direction >= 0 && currentSquare.row + 2 * direction < GameSettings.BOARD_SIZE && currentSquare.row == startingRow && board.getPiece(Square.at(currentSquare.row + 2 * direction, currentSquare.col)) == undefined) {
-                moves.push(Square.at(currentSquare.row + 2 * direction, currentSquare.col));
+            const sqAhead2 = Square.at(currentSquare.row + 2 * direction, currentSquare.col);
+            if (sqAhead2.withinBoard() && currentSquare.row == startingRow && board.getPiece(sqAhead2) == undefined) {
+                moves.push(sqAhead2);
             }
         }
         // Can move diagonally if there is a piece to take
