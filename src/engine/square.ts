@@ -1,3 +1,5 @@
+import GameSettings from "./gameSettings";
+
 export default class Square {
     public row: number;
     public col: number;
@@ -9,6 +11,15 @@ export default class Square {
 
     public static at(row: number, col: number) {
         return new Square(row, col);
+    }
+
+    public withinBoard() {
+        return (
+            this.row >= 0 &&
+            this.row < GameSettings.BOARD_SIZE &&
+            this.col >= 0 &&
+            this.col < GameSettings.BOARD_SIZE
+        )
     }
 
     public equals(otherSquare: Square) {
