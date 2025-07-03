@@ -24,7 +24,16 @@ export default class Pawn extends Piece {
         }
         // this.player == Player.BLACK
         else {
-            return [Square.at(currentSquare.row - 1, currentSquare.col)];
+            // If the black pawn hasn't yet moved, then it can move one OR two spaces
+            if (currentSquare.row == 6) {
+                return [
+                    Square.at(currentSquare.row - 1, currentSquare.col),
+                    Square.at(currentSquare.row - 2, currentSquare.col)
+                ];
+            }
+            else {
+                return [Square.at(currentSquare.row - 1, currentSquare.col)];
+            }
         }
     }
 }
