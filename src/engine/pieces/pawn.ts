@@ -10,30 +10,17 @@ export default class Pawn extends Piece {
 
     public getAvailableMoves(board: Board) {
         const currentSquare = board.findPiece(this);
-        if (this.player == Player.WHITE) {
-            // If the white pawn hasn't yet moved, then it can move one OR two spaces
-            if (currentSquare.row == 1) {
-                return [
-                    Square.at(currentSquare.row + 1, currentSquare.col),
-                    Square.at(currentSquare.row + 2, currentSquare.col)
-                ];
-            }
-            else {
-                return [Square.at(currentSquare.row + 1, currentSquare.col)];
-            }
-        }
-        // this.player == Player.BLACK
-        else {
-            // If the black pawn hasn't yet moved, then it can move one OR two spaces
-            if (currentSquare.row == 6) {
-                return [
-                    Square.at(currentSquare.row - 1, currentSquare.col),
-                    Square.at(currentSquare.row - 2, currentSquare.col)
-                ];
-            }
-            else {
-                return [Square.at(currentSquare.row - 1, currentSquare.col)];
+        const moves = [];
+        const direction = this.player === Player.WHITE ? 1 : -1;
+        // Square ahead must be free (to move either 1 or 2 spaces)
+        if (board.getPiece(Square.at(currentSquare.row + direction, currentSquare.col)) == undefined) {
+            moves.push(Square.at(currentSquare.row + direction, currentSquare.col));
+            const startingRow = this.player === Player.WHITE ? 1 : 6;
+            // If the pawn hasn't yet moved, then it can move two spaces (if the square two spaces ahead is free)
+            if (currentSquare.row == startingRow && board.getPiece(Square.at(currentSquare.row + 2 * direction, currentSquare.col)) == undefined) {
+                moves.push(Square.at(currentSquare.row + 2 * direction, currentSquare.col));
             }
         }
+        return moves;
     }
 }
