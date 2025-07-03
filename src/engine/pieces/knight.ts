@@ -15,18 +15,20 @@ export default class Knight extends Piece {
         const moves = []
         for (let i of [1, -1]) {
             for (let j of [2, -2]) {
-                // Can't take friendly pieces
-                let sq = Square.at(currentSquare.row + i, currentSquare.col + j);
-                if (sq.withinBoard() && board.getPiece(sq)?.player != board.currentPlayer) {
-                    moves.push(Square.at(currentSquare.row + i, currentSquare.col + j));
-                }
-                sq = Square.at(currentSquare.row + j, currentSquare.col + i);
-                if (sq.withinBoard() && board.getPiece(sq)?.player != board.currentPlayer) {
-                    moves.push(Square.at(currentSquare.row + j, currentSquare.col + i));
+                // Consider both possible orderings of coordinates, reflecting the symmetry of possible moves for a knight
+                let possibleSquares = [
+                    Square.at(currentSquare.row + i, currentSquare.col + j),
+                    Square.at(currentSquare.row + j, currentSquare.col + i)
+                ];
+                for (let sq of possibleSquares) {
+                    // Can't take friendly pieces
+                    if (sq.withinBoard() && board.getPiece(sq)?.player != board.currentPlayer) {
+                        moves.push(sq);
+                    }
                 }
             }
         }
-        // Only return moves that are within the board (and not the opponent's king)
-        return moves.filter(move => move.withinBoard() && !(board.getPiece(move) instanceof King));
+        // Only return moves that don't take the opponent's king
+        return moves.filter(move => !(board.getPiece(move) instanceof King));
     }
 }
