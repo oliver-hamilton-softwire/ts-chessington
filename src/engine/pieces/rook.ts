@@ -11,23 +11,15 @@ export default class Rook extends Piece {
     public getAvailableMoves(board: Board) {
         const currentSquare = board.findPiece(this);
         // Allow lateral moves, and no other moves
-        return [
-            // Horizontal
-            Square.at(currentSquare.row, 0),
-            Square.at(currentSquare.row, 1),
-            Square.at(currentSquare.row, 3),
-            Square.at(currentSquare.row, 4),
-            Square.at(currentSquare.row, 5),
-            Square.at(currentSquare.row, 6),
-            Square.at(currentSquare.row, 7),
-            // Vertical
-            Square.at(0, currentSquare.col),
-            Square.at(2, currentSquare.col),
-            Square.at(3, currentSquare.col),
-            Square.at(4, currentSquare.col),
-            Square.at(5, currentSquare.col),
-            Square.at(6, currentSquare.col),
-            Square.at(7, currentSquare.col)
-        ];
+        const moves = [];
+        for (let i = 0; i <= 7; i++) {
+            if (!currentSquare.equals(Square.at(currentSquare.row, i))) {
+                moves.push(Square.at(currentSquare.row, i));
+            }
+            if (!currentSquare.equals(Square.at(i, currentSquare.col))) {
+                moves.push(Square.at(i, currentSquare.col));
+            }
+        }
+        return moves;
     }
 }
