@@ -18,6 +18,7 @@ export default class Knight extends Piece {
                 moves.push(Square.at(currentSquare.row + j, currentSquare.col + i));
             }
         }
-        return moves;
+        // Only return moves that are within the board
+        return moves.filter(move => move.withinBoard());
     }
 }
