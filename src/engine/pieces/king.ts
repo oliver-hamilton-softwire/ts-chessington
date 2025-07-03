@@ -13,7 +13,8 @@ export default class King extends Piece {
         const moves = [];
         for (let i = -1; i <= 1; i++) {
             for (let j = -1; j <= 1; j++) {
-                const newSquare = Square.at(currentSquare.row + i, currentSquare.col + j);
+                let newSquare = Square.at(currentSquare.row + i, currentSquare.col + j);
+                // Check that the move is within the bounds of the board, and that either the piece is undefined or belongs to the opposite player
                 if ((i != 0 || j != 0) && newSquare.withinBoard() && board.getPiece(newSquare)?.player != board.currentPlayer) {
                     moves.push(newSquare);
                 }
