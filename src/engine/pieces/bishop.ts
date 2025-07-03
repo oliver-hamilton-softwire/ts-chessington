@@ -2,6 +2,7 @@ import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
 import Square from '../square';
+import King from './king';
 
 export default class Bishop extends Piece {
     public constructor(player: Player) {
@@ -14,25 +15,30 @@ export default class Bishop extends Piece {
         const moves = [];
 
         // Bottom-right of diagonal
-        for (let i = 1; i <= currentSquare.row && i <= 7 - currentSquare.col && board.getPiece(Square.at(currentSquare.row - i, currentSquare.col + i)) == undefined; i++) {
-            moves.push(Square.at(currentSquare.row - i, currentSquare.col + i));
-        }
+        moves.push(...board.getMovesInDirection(currentSquare, [-1, 1]));
+        // for (let i = 1; i <= currentSquare.row && i <= 7 - currentSquare.col && board.getPiece(Square.at(currentSquare.row - i, currentSquare.col + i)) == undefined; i++) {
+        //     moves.push(Square.at(currentSquare.row - i, currentSquare.col + i));
+        // }
 
         // Bottom-left of diagonal
-        for (let i = 1; i <= currentSquare.row && i <= currentSquare.col && board.getPiece(Square.at(currentSquare.row - i, currentSquare.col - i)) == undefined; i++) {
-            moves.push(Square.at(currentSquare.row - i, currentSquare.col - i));
-        }
+        // for (let i = 1; i <= currentSquare.row && i <= currentSquare.col && board.getPiece(Square.at(currentSquare.row - i, currentSquare.col - i)) == undefined; i++) {
+        //     moves.push(Square.at(currentSquare.row - i, currentSquare.col - i));
+        // }
+        moves.push(...board.getMovesInDirection(currentSquare, [-1, -1]));
 
         // Top-right of diagonal
-        for (let i = 1; i <= 7 - currentSquare.row && i <= 7 - currentSquare.col && board.getPiece(Square.at(currentSquare.row + i, currentSquare.col + i)) == undefined; i++) {
-            moves.push(Square.at(currentSquare.row + i, currentSquare.col + i));
-        }
+        // for (let i = 1; i <= 7 - currentSquare.row && i <= 7 - currentSquare.col && board.getPiece(Square.at(currentSquare.row + i, currentSquare.col + i)) == undefined; i++) {
+        //     moves.push(Square.at(currentSquare.row + i, currentSquare.col + i));
+        // }
+        moves.push(...board.getMovesInDirection(currentSquare, [1, 1]));
+
 
         // Top-left of diagonal
-        for (let i = 1; i <= 7 - currentSquare.row && i <= currentSquare.col && board.getPiece(Square.at(currentSquare.row + i, currentSquare.col - i)) == undefined; i++) {
-            moves.push(Square.at(currentSquare.row + i, currentSquare.col - i));
-        }
+        // for (let i = 1; i <= 7 - currentSquare.row && i <= currentSquare.col && board.getPiece(Square.at(currentSquare.row + i, currentSquare.col - i)) == undefined; i++) {
+        //     moves.push(Square.at(currentSquare.row + i, currentSquare.col - i));
+        // }
+        moves.push(...board.getMovesInDirection(currentSquare, [1, -1]));
 
-        return moves;
+        return moves.filter(square => !(board.getPiece(square) instanceof King));
     }
 }

@@ -40,6 +40,19 @@ export default class Board {
         }
     }
 
+    public getMovesInDirection(currentSquare: Square, directionVec: [number, number]): Square[] {
+        const moves: Square[] = [];
+        for (let sq = Square.at(currentSquare.row + directionVec[0], currentSquare.col + directionVec[1]); sq.withinBoard() && this.getPiece(sq)?.player != this.currentPlayer; sq = Square.at(sq.row + directionVec[0], sq.col + directionVec[1])) {
+            moves.push(sq);
+
+            // If this piece is an opposing piece, then there are no more pieces to be considered in this direction
+            if (this.getPiece(sq) != undefined) {
+                break;
+            }
+        }
+        return moves;
+    }
+
     private createBoard() {
         const board = new Array(GameSettings.BOARD_SIZE);
         for (let i = 0; i < board.length; i++) {
