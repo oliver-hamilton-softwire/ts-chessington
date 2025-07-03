@@ -14,22 +14,22 @@ export default class Bishop extends Piece {
         const moves = [];
 
         // Bottom-right of diagonal
-        for (let i = 1; i <= currentSquare.row && i <= 7 - currentSquare.col; i++) {
+        for (let i = 1; i <= currentSquare.row && i <= 7 - currentSquare.col && board.getPiece(Square.at(currentSquare.row - i, currentSquare.col + i)) == undefined; i++) {
             moves.push(Square.at(currentSquare.row - i, currentSquare.col + i));
         }
 
         // Bottom-left of diagonal
-        for (let i = 1; i <= currentSquare.row && i <= currentSquare.col; i++) {
+        for (let i = 1; i <= currentSquare.row && i <= currentSquare.col && board.getPiece(Square.at(currentSquare.row - i, currentSquare.col - i)) == undefined; i++) {
             moves.push(Square.at(currentSquare.row - i, currentSquare.col - i));
         }
 
         // Top-right of diagonal
-        for (let i = 1; i <= 7 - currentSquare.row && i <= 7 - currentSquare.col; i++) {
+        for (let i = 1; i <= 7 - currentSquare.row && i <= 7 - currentSquare.col && board.getPiece(Square.at(currentSquare.row + i, currentSquare.col + i)) == undefined; i++) {
             moves.push(Square.at(currentSquare.row + i, currentSquare.col + i));
         }
 
         // Top-left of diagonal
-        for (let i = 1; i <= 7 - currentSquare.row && i <= currentSquare.col; i++) {
+        for (let i = 1; i <= 7 - currentSquare.row && i <= currentSquare.col && board.getPiece(Square.at(currentSquare.row + i, currentSquare.col - i)) == undefined; i++) {
             moves.push(Square.at(currentSquare.row + i, currentSquare.col - i));
         }
 
