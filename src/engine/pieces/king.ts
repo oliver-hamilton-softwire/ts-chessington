@@ -14,11 +14,11 @@ export default class King extends Piece {
         for (let i = -1; i <= 1; i++) {
             for (let j = -1; j <= 1; j++) {
                 const newSquare = Square.at(currentSquare.row + i, currentSquare.col + j);
-                if ((i != 0 || j != 0) && newSquare.withinBoard()) {
+                if ((i != 0 || j != 0) && newSquare.withinBoard() && board.getPiece(newSquare)?.player != board.currentPlayer) {
                     moves.push(newSquare);
                 }
             }
         }
-        return moves;
+        return moves.filter(sq => !(board.getPiece(sq) instanceof King));
     }
 }
